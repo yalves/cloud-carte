@@ -38,6 +38,9 @@ dependencies {
 
     // sdk15, sdk19, sdk21, sdk23 are also available
     compile "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
+
+    //Firebase dependencies
+    compile "com.google.firebase:firebase-auth:$firebase_version"
 }
 repositories {
     mavenCentral()
