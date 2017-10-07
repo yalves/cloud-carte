@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">CloudCarteApp</string>
+
+    <!-- Facebook -->
+    <string name="facebook_app_id">401977373552269</string>
+    <string name="fb_login_protocol_scheme">fb401977373552269</string>
+    <!-- Facebook -->
+
 </resources>
