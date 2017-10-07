@@ -6,4 +6,6 @@
     <string name="fb_login_protocol_scheme">fb401977373552269</string>
     <!-- Facebook -->
 
+    <string name="button_logout">Logout</string>
+
 </resources>
