@@ -6,6 +6,13 @@
     <string name="fb_login_protocol_scheme">fb401977373552269</string>
     <!-- Facebook -->
 
+    <string name="button_login">Login</string>
+
+    <string name="email_required">Email is required</string>
+    <string name="password_required">Password is required</string>
+    <string name="login_error">Login error. Try again.</string>
+    <string name="button_register">Register</string>
     <string name="button_logout">Logout</string>
+    <string name="facebook_login_canceled">Login canceled</string>
 
 </resources>

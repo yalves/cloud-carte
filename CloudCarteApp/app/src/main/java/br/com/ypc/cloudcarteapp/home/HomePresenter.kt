@@ -15,7 +15,7 @@ class HomePresenter(val view: HomeContract.View, val authService: AuthService) :
     }
 
     override fun logout() {
-        authService.logout()
+        authService.logOut()
     }
 
     override fun loadAlbuns() {

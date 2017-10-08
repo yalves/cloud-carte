@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import br.com.ypc.cloudcarteapp.R
 import br.com.ypc.cloudcarteapp.extensions.inflate
 import br.com.ypc.cloudcarteapp.models.valueobjects.Album
+import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
  * Created by caleb on 07/10/2017.
@@ -26,6 +27,7 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadEvents()
     }
 
     override fun showAlbuns(albuns: List<Album>) {
@@ -38,6 +40,12 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     override fun finishLoading() {
+    }
+
+    private fun loadEvents() {
+        button_logout.setOnClickListener {
+            presenter.logout()
+        }
     }
 
     companion object {
