@@ -9,7 +9,7 @@ import br.com.ypc.cloudcarteapp.login.LoginPresenter
 import br.com.ypc.cloudcarteapp.register.RegisterContract
 import br.com.ypc.cloudcarteapp.register.RegisterPresenter
 import br.com.ypc.cloudcarteapp.services.interfaces.AlbumService
-import br.com.ypc.cloudcarteapp.services.interfaces.firebase.AlbumFirebaseService
+import br.com.ypc.cloudcarteapp.services.firebase.AlbumFirebaseService
 
 /**
  * Created by caleb on 07/10/2017.

@@ -1,4 +1,4 @@
-package br.com.ypc.cloudcarteapp.services.interfaces.firebase
+package br.com.ypc.cloudcarteapp.services.firebase
 
 import android.graphics.Bitmap
 import br.com.ypc.cloudcarteapp.auth.interfaces.AuthService
@@ -6,11 +6,10 @@ import br.com.ypc.cloudcarteapp.extensions.toString
 import br.com.ypc.cloudcarteapp.metadata.SituacaoEnum
 import br.com.ypc.cloudcarteapp.models.valueobjects.Album
 import br.com.ypc.cloudcarteapp.models.valueobjects.AlbumItem
+import br.com.ypc.cloudcarteapp.models.valueobjects.Avaliacao
+import br.com.ypc.cloudcarteapp.models.valueobjects.Comentario
 import br.com.ypc.cloudcarteapp.services.interfaces.AlbumService
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
@@ -26,17 +25,12 @@ class AlbumFirebaseService(val authService: AuthService) : AlbumService {
     private val storage: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
 
     override fun getImageUploadInfoList(showPublic: Boolean, successFn: (List<Album>) -> Unit, errorFn: (String) -> Unit, finallyFn: () -> Unit) {
-        val usersChildDatabase = database.reference.child("users")
+        val usersChildDatabase = database.reference.child("albuns")
 
-        val query = if (showPublic)
-            usersChildDatabase.orderByChild("public").equalTo(true)
-        else
-            usersChildDatabase.orderByChild("userUid").equalTo(authService.getUserUid()!!)
-
-        query.addValueEventListener(object : ValueEventListener {
+        usersChildDatabase.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                val list = dataSnapshot?.children?.map { it.getValue(Album::class.java)!! }
+                val list = dataSnapshot?.children?.map { mapAlbum(it) }
                 successFn(list ?: listOf())
                 finallyFn()
             }
@@ -46,6 +40,54 @@ class AlbumFirebaseService(val authService: AuthService) : AlbumService {
                 finallyFn()
             }
         })
+    }
+
+    private fun mapAlbum(albumSnapshot: DataSnapshot): Album {
+
+        val id = albumSnapshot.child("id").getValue(String::class.java) ?: ""
+        val itens = albumSnapshot.child("itens").children.map {
+            mapAlbumItem(it)
+        }
+
+        val nome = albumSnapshot.child("nome").getValue(String::class.java) ?: ""
+        val nomeArquivo = albumSnapshot.child("nomeArquivo").getValue(String::class.java) ?: ""
+
+        return Album(id = id,
+                itens = itens,
+                nome = nome,
+                nomeArquivo = nomeArquivo)
+    }
+
+    private fun mapAlbumItem(albumItem: DataSnapshot): AlbumItem {
+
+        val nome = albumItem.child("nome").getValue(String::class.java) ?: ""
+        val situacao = albumItem.child("situacao").getValue(SituacaoEnum::class.java) ?: SituacaoEnum.ATIVO
+        val caminhoFoto = albumItem.child("caminhoFoto").getValue(String::class.java) ?: ""
+        val avaliacoes = albumItem.child("avaliacoes").children.map { mapAvaliacoes(it) }
+        val comentarios = albumItem.child("comentarios").children.map { mapComentarios(it) }
+        val deslikes = albumItem.child("deslikes").getValue(Int::class.java) ?: 0
+        val likes = albumItem.child("likes").getValue(Int::class.java) ?: 0
+        val upload = albumItem.child("upload").getValue(String::class.java) ?: ""
+
+        return AlbumItem(nome = nome,
+                situacao = situacao,
+                caminhoFoto = caminhoFoto,
+                avaliacoes = avaliacoes,
+                comentarios = comentarios,
+                deslikes = deslikes,
+                likes = likes,
+                upload = upload)
+    }
+
+    private fun mapComentarios(albumItem: DataSnapshot) : Comentario {
+        return Comentario(usuarioId = "",
+                conteudo = "",
+                dataPostagem = Date())
+    }
+
+    private fun mapAvaliacoes(albumItem: DataSnapshot) : Avaliacao {
+        return Avaliacao(usuarioId = "",
+                like = true)
     }
 
     override fun saveImage(bitmap: Bitmap, successFn: (Album) -> Unit, errorFn: (String) -> Unit, finallyFn: () -> Unit) {
