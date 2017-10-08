@@ -13,7 +13,6 @@ interface HomeContract {
         fun start()
         fun logOut()
         fun loadAlbuns()
-        fun saveImage(bitmap: Bitmap)
     }
 
     interface View : BaseView<Presenter> {

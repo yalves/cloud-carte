@@ -18,5 +18,6 @@
     <string name="button_photo">New photo</string>
     <string name="photo_saved_successful">Photo saved</string>
     <string name="button_personal_gallery">My photos</string>
+    <string name="button_pesquisa">Pesquisar</string>
 
 </resources>

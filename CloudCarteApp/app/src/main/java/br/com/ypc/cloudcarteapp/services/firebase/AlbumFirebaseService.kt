@@ -19,7 +19,7 @@ import java.util.*
 /**
  * Created by caleb on 08/10/2017.
  */
-class AlbumFirebaseService(val authService: AuthService) : AlbumService {
+class AlbumFirebaseService(val authService: AuthService, val mapAlbumFirebaseService: MapAlbumFirebaseService) : AlbumService {
 
     private val database: FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
     private val storage: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
@@ -30,7 +30,7 @@ class AlbumFirebaseService(val authService: AuthService) : AlbumService {
         usersChildDatabase.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(dataSnapshot: DataSnapshot?) {
-                val list = dataSnapshot?.children?.map { mapAlbum(it) }
+                val list = dataSnapshot?.children?.map { mapAlbumFirebaseService.mapAlbum(it) }
                 successFn(list ?: listOf())
                 finallyFn()
             }
@@ -40,54 +40,6 @@ class AlbumFirebaseService(val authService: AuthService) : AlbumService {
                 finallyFn()
             }
         })
-    }
-
-    private fun mapAlbum(albumSnapshot: DataSnapshot): Album {
-
-        val id = albumSnapshot.child("id").getValue(String::class.java) ?: ""
-        val itens = albumSnapshot.child("itens").children.map {
-            mapAlbumItem(it)
-        }
-
-        val nome = albumSnapshot.child("nome").getValue(String::class.java) ?: ""
-        val nomeArquivo = albumSnapshot.child("nomeArquivo").getValue(String::class.java) ?: ""
-
-        return Album(id = id,
-                itens = itens,
-                nome = nome,
-                nomeArquivo = nomeArquivo)
-    }
-
-    private fun mapAlbumItem(albumItem: DataSnapshot): AlbumItem {
-
-        val nome = albumItem.child("nome").getValue(String::class.java) ?: ""
-        val situacao = albumItem.child("situacao").getValue(SituacaoEnum::class.java) ?: SituacaoEnum.ATIVO
-        val caminhoFoto = albumItem.child("caminhoFoto").getValue(String::class.java) ?: ""
-        val avaliacoes = albumItem.child("avaliacoes").children.map { mapAvaliacoes(it) }
-        val comentarios = albumItem.child("comentarios").children.map { mapComentarios(it) }
-        val deslikes = albumItem.child("deslikes").getValue(Int::class.java) ?: 0
-        val likes = albumItem.child("likes").getValue(Int::class.java) ?: 0
-        val upload = albumItem.child("upload").getValue(String::class.java) ?: ""
-
-        return AlbumItem(nome = nome,
-                situacao = situacao,
-                caminhoFoto = caminhoFoto,
-                avaliacoes = avaliacoes,
-                comentarios = comentarios,
-                deslikes = deslikes,
-                likes = likes,
-                upload = upload)
-    }
-
-    private fun mapComentarios(albumItem: DataSnapshot) : Comentario {
-        return Comentario(usuarioId = "",
-                conteudo = "",
-                dataPostagem = Date())
-    }
-
-    private fun mapAvaliacoes(albumItem: DataSnapshot) : Avaliacao {
-        return Avaliacao(usuarioId = "",
-                like = true)
     }
 
     override fun saveImage(bitmap: Bitmap, successFn: (Album) -> Unit, errorFn: (String) -> Unit, finallyFn: () -> Unit) {

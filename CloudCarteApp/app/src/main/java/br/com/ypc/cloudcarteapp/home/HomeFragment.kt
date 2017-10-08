@@ -12,12 +12,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.com.ypc.cloudcarteapp.R
+import br.com.ypc.cloudcarteapp.cardapio.CardapioActivity
 import br.com.ypc.cloudcarteapp.extensions.inflate
 import br.com.ypc.cloudcarteapp.home.adapter.HomeRecyclerViewAdapter
 import br.com.ypc.cloudcarteapp.models.valueobjects.Album
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.selector
+import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 
 /**
@@ -28,10 +30,15 @@ class HomeFragment : Fragment(), HomeContract.View {
     override lateinit var presenter: HomeContract.Presenter
     private lateinit var adapter: HomeRecyclerViewAdapter
     private var dialog: ProgressDialog? = null
+    private var cardapioImage:Bitmap? = null
 
     override fun onResume() {
         super.onResume()
         presenter.start()
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -42,29 +49,6 @@ class HomeFragment : Fragment(), HomeContract.View {
         loadEvents()
         loadAdapter()
         loadRecyclerView()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == Activity.RESULT_CANCELED)
-            return
-
-        when (requestCode) {
-            Companion.GALLERY_VALUE_OPTION -> {
-                data?.let {
-                    val bitmap = MediaStore.Images.Media.getBitmap(activity.contentResolver, it.data)
-                    presenter.saveImage(bitmap)
-                }
-            }
-            Companion.CAMERA_VALUE_OPTION -> {
-                data?.let {
-                    val thumb = it.extras["data"] as Bitmap
-                    presenter.saveImage(thumb)
-                }
-            }
-            else -> return
-        }
     }
 
     override fun showAlbuns(albuns: List<Album>) {
@@ -96,13 +80,11 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     override fun showCamera() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        this.startActivityForResult(intent, Companion.CAMERA_VALUE_OPTION)
+        startActivity<CardapioActivity>(CardapioActivity.OPTION_PHOTO to Companion.CAMERA_VALUE_OPTION)
     }
 
     override fun showGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        this.startActivityForResult(intent, Companion.GALLERY_VALUE_OPTION)
+        startActivity<CardapioActivity>(CardapioActivity.OPTION_PHOTO to Companion.GALLERY_VALUE_OPTION)
     }
 
     override fun showPhotoSaved() {

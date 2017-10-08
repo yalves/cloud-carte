@@ -28,12 +28,4 @@ class HomePresenter(val view: HomeContract.View, val authService: AuthService, v
                 errorFn = { view.showLoadPhotosError(it) },
                 finallyFn = { view.finishLoading() })
     }
-
-    override fun saveImage(bitmap: Bitmap) {
-        view.startLoading()
-        albumService.saveImage(bitmap,
-                successFn = { view.showPhotoSaved() },
-                errorFn = { view.showSavePhotoError(it) },
-                finallyFn = { view.finishLoading() })
-    }
 }
