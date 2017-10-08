@@ -14,5 +14,6 @@
     <string name="button_register">Register</string>
     <string name="button_logout">Logout</string>
     <string name="facebook_login_canceled">Login canceled</string>
+    <string name="user_registered">User registered with success</string>
 
 </resources>

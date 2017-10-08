@@ -6,6 +6,8 @@ import br.com.ypc.cloudcarteapp.home.HomeContract
 import br.com.ypc.cloudcarteapp.home.HomePresenter
 import br.com.ypc.cloudcarteapp.login.LoginContract
 import br.com.ypc.cloudcarteapp.login.LoginPresenter
+import br.com.ypc.cloudcarteapp.register.RegisterContract
+import br.com.ypc.cloudcarteapp.register.RegisterPresenter
 
 /**
  * Created by caleb on 07/10/2017.
@@ -17,7 +19,11 @@ object DependencyInjector {
         HomePresenter(view, authService)
     }
 
-    fun getLoginPresenter(loginView: LoginContract.View) {
-        LoginPresenter(loginView, authService)
+    fun getLoginPresenter(view: LoginContract.View) {
+        LoginPresenter(view, authService)
+    }
+
+    fun getRegisterPresenter(view: RegisterContract.View) {
+        RegisterPresenter(view, authService)
     }
 }
