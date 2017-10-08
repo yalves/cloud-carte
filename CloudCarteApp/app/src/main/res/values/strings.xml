@@ -15,5 +15,8 @@
     <string name="button_logout">Logout</string>
     <string name="facebook_login_canceled">Login canceled</string>
     <string name="user_registered">User registered with success</string>
+    <string name="button_photo">New photo</string>
+    <string name="photo_saved_successful">Photo saved</string>
+    <string name="button_personal_gallery">My photos</string>
 
 </resources>
