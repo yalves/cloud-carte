@@ -1,6 +1,7 @@
 package br.com.ypc.cloudcarteapp.register
 
 import br.com.ypc.cloudcarteapp.auth.interfaces.AuthService
+import br.com.ypc.cloudcarteapp.models.domain.Usuario
 
 /**
  * Created by caleb on 07/10/2017.
@@ -11,8 +12,8 @@ class RegisterPresenter (val registerView: RegisterContract.View, val authServic
         registerView.presenter = this
     }
 
-    override fun createUser(email: String, password: String) {
-        if (email.isEmpty()) {
+    override fun createUser(usuario: Usuario, password: String) {
+        if (usuario.email.isEmpty()) {
             registerView.showEmailRequiredMessage()
             return
         }
@@ -22,7 +23,12 @@ class RegisterPresenter (val registerView: RegisterContract.View, val authServic
             return
         }
 
-        authService.createUserWithEmailAndPassword(email, password,
+        if (usuario.nome.isEmpty()) {
+            registerView.showNomeRequiredMessage()
+            return
+        }
+
+        authService.createUser(usuario, password,
                 successFn = {
                     registerView.showUserRegistered()
                 },

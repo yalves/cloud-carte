@@ -6,4 +6,6 @@ package br.com.ypc.cloudcarteapp.models.valueobjects
 data class Album (var id: String,
                   var nome: String,
                   var itens: List<AlbumItem>,
-                  var nomeArquivo: String)
+                  var nomeArquivo: String,
+                  var estabelecimentoId: String,
+                  var userId: String)

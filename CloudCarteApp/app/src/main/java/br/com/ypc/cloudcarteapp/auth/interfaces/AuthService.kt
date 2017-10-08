@@ -1,5 +1,6 @@
 package br.com.ypc.cloudcarteapp.auth.interfaces
 
+import br.com.ypc.cloudcarteapp.models.domain.Usuario
 import com.facebook.AccessToken
 
 /**
@@ -10,5 +11,5 @@ interface AuthService {
     fun handleFacebookAccess(accessToken: AccessToken, successFn: () -> Unit = {}, errorFn: (String) -> Unit = {})
     fun getUserUid(): String?
     fun logOut()
-    fun createUserWithEmailAndPassword(email: String, password: String, successFn: () -> Unit, errorFn: (String) -> Unit = {})
+    fun createUser(usuario: Usuario, password: String, successFn: () -> Unit, errorFn: (String) -> Unit = {})
 }

@@ -1,10 +1,8 @@
 package br.com.ypc.cloudcarteapp.services.firebase
 
 import br.com.ypc.cloudcarteapp.metadata.SituacaoEnum
-import br.com.ypc.cloudcarteapp.models.valueobjects.Album
-import br.com.ypc.cloudcarteapp.models.valueobjects.AlbumItem
-import br.com.ypc.cloudcarteapp.models.valueobjects.Avaliacao
-import br.com.ypc.cloudcarteapp.models.valueobjects.Comentario
+import br.com.ypc.cloudcarteapp.models.domain.Usuario
+import br.com.ypc.cloudcarteapp.models.valueobjects.*
 import com.google.firebase.database.DataSnapshot
 import java.util.*
 
@@ -22,11 +20,15 @@ class MapAlbumFirebaseService {
 
         val nome = albumSnapshot.child("nome").getValue(String::class.java) ?: ""
         val nomeArquivo = albumSnapshot.child("nomeArquivo").getValue(String::class.java) ?: ""
+        val estabelecimentoId = albumSnapshot.child("estabelecimentoId").getValue(String::class.java) ?: ""
+        val userId = albumSnapshot.child("userId").getValue(String::class.java) ?: ""
 
         return Album(id = id,
-                itens = itens,
                 nome = nome,
-                nomeArquivo = nomeArquivo)
+                itens = itens,
+                nomeArquivo = nomeArquivo,
+                estabelecimentoId = estabelecimentoId,
+                userId = userId)
     }
 
     fun mapAlbumItem(albumItem: DataSnapshot): AlbumItem {
@@ -66,5 +68,24 @@ class MapAlbumFirebaseService {
 
         return Avaliacao(usuarioId = usuarioId,
                 like = like)
+    }
+
+    fun mapUsuario(dataSnapshot: DataSnapshot): Usuario {
+
+        val id = dataSnapshot.child("id").getValue(String::class.java) ?: ""
+        val nome = dataSnapshot.child("nome").getValue(String::class.java) ?: ""
+        val email = dataSnapshot.child("email").getValue(String::class.java) ?: ""
+        val dataNascimento = dataSnapshot.child("dataNascimento").getValue(Date::class.java)
+        val conquistas = dataSnapshot.child("conquistas").children.map{ it.getValue(String::class.java)!! } as MutableList
+        val endereco = dataSnapshot.child("endereco").getValue(Endereco::class.java) ?: Endereco()
+        val telefone = dataSnapshot.child("telefone").getValue(String::class.java) ?: ""
+
+        return Usuario(id = id,
+                nome = nome,
+                email = email,
+                dataNascimento = dataNascimento,
+                conquistas = conquistas,
+                endereco = endereco,
+                telefone = telefone)
     }
 }

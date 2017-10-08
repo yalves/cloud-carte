@@ -46,7 +46,8 @@
         </activity>
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".register.RegisterActivity" />
-        <activity android:name=".cardapio.CardapioActivity"></activity>
+        <activity android:name=".cardapio.CardapioActivity" />
+        <activity android:name=".estabelecimento.EstabelecimentoActivity"></activity>
     </application>
 
 </manifest>

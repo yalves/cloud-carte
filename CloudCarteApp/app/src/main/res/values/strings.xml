@@ -19,5 +19,7 @@
     <string name="photo_saved_successful">Photo saved</string>
     <string name="button_personal_gallery">My photos</string>
     <string name="button_pesquisa">Pesquisar</string>
+    <string name="button_salva">Salvar</string>
+    <string name="nome_required">Nome is required</string>
 
 </resources>

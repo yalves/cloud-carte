@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import br.com.ypc.cloudcarteapp.R
 import br.com.ypc.cloudcarteapp.extensions.inflate
 import br.com.ypc.cloudcarteapp.login.LoginActivity
+import br.com.ypc.cloudcarteapp.models.domain.Usuario
 import kotlinx.android.synthetic.main.fragment_register.*
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
@@ -32,12 +33,23 @@ class RegisterFragment : Fragment(), RegisterContract.View {
             showLogin()
         }
         button_registra.setOnClickListener {
-            presenter.createUser(edit_email.text.toString(), edit_password.text.toString())
+            val usuario = getUsuario()
+            presenter.createUser(usuario, edit_password.text.toString())
         }
+    }
+
+    private fun getUsuario(): Usuario {
+        return Usuario(id = "",
+                email = edit_email.text.toString(),
+                nome = edit_nome.text.toString())
     }
 
     override fun showEmailRequiredMessage() {
         toast(R.string.email_required)
+    }
+
+    override fun showNomeRequiredMessage() {
+        toast(R.string.nome_required)
     }
 
     override fun showPasswordRequiredMessage() {
