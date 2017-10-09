@@ -14,21 +14,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Nome"
             android:inputType="textEmailAddress" />
 
         <EditText
+            android:id="@+id/edit_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
             android:ems="10"
-            android:id="@+id/edit_email" />
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
 
         <EditText
+            android:id="@+id/edit_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/edit_password" />
+            android:hint="Senha"
+            android:inputType="textPassword" />
 
         <Button
             android:text="@string/button_register"
