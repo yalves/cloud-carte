@@ -21,7 +21,7 @@ class RestauranteRecyclerViewAdapter(val context: Context, estabelecimentos: Lis
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = parent.inflate(R.layout.album_item)
+        val view = parent.inflate(R.layout.estabelecimento_item)
         return GalleryViewHolder(view!!)
     }
 
@@ -35,13 +35,9 @@ class RestauranteRecyclerViewAdapter(val context: Context, estabelecimentos: Lis
 
     internal inner class GalleryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textView: TextView = itemView.findViewById(R.id.ImageNameTextView)
-        var imageView: ImageView = itemView.findViewById(R.id.imageView)
-        var textVisibility: TextView = itemView.findViewById(R.id.text_visibility)
 
         fun bind(item: Estabelecimento, listener: EstabelecimentoClickListener? = null) {
             textView.text = item.nome
-            textVisibility.text = ""
-            //Glide.with(context).load(item.url).into(imageView)
             itemView.setOnClickListener {
                 listener?.onItemClick(item)
             }
