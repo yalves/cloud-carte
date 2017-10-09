@@ -93,7 +93,7 @@ class CardapioFragment : Fragment(), CardapioContract.View {
 
     private fun showOptionToAddNewEstabelecimento() {
         val options = listOf("Sim", "Não")
-        selector("Restaurante não encontrado.\nDeseja cadastrar um novo restaurante?", options, { _, i ->
+        selector("Restaurante não encontrado.\nDeseja cadastrá-lo?", options, { _, i ->
             when(i) {
                 0 -> showAddEstabelecimento()
             }
