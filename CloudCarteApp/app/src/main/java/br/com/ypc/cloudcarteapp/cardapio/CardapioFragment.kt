@@ -39,16 +39,20 @@ class CardapioFragment : Fragment(), CardapioContract.View {
     private var dialog: ProgressDialog? = null
     private var cardapioImage: Bitmap? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onResume() {
+        super.onResume()
+        if (cardapioImage != null)
+            return
 
         val option = activity.intent.extras[CardapioActivity.OPTION_PHOTO]
         when (option) {
             HomeFragment.CAMERA_VALUE_OPTION -> showCamera()
             HomeFragment.GALLERY_VALUE_OPTION -> showGallery()
         }
-
-        return container?.inflate(R.layout.fragment_cardapio)
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            container?.inflate(R.layout.fragment_cardapio)
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
