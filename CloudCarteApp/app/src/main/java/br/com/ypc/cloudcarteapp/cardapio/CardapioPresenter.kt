@@ -16,7 +16,7 @@ class CardapioPresenter(val view: CardapioContract.View, val albumService: Album
 
     override fun realizarPesquisaRestaurantes(restaurante: String) {
         view.startLoading()
-        estabelecimentoService.getEstabelecimentos(
+        estabelecimentoService.getEstabelecimentosByNome(restaurante,
                 successFn = { view.showEstabelecimentos(it) },
                 errorFn = { view.showLoadEstabelecimentosError(it) },
                 finallyFn = { view.finishLoading() })

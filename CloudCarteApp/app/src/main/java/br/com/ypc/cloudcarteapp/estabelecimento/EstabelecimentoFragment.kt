@@ -2,14 +2,12 @@ package br.com.ypc.cloudcarteapp.estabelecimento
 
 import android.app.ProgressDialog
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import br.com.ypc.cloudcarteapp.R
-import br.com.ypc.cloudcarteapp.cardapio.CardapioActivity
 import br.com.ypc.cloudcarteapp.extensions.inflate
 import br.com.ypc.cloudcarteapp.home.HomeActivity
 import br.com.ypc.cloudcarteapp.models.domain.Estabelecimento
@@ -35,8 +33,6 @@ class EstabelecimentoFragment : Fragment(), EstabelecimentoContract.View {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val byteArray = activity.intent.extras[CardapioActivity.IMAGEM_CARDAPIO] as ByteArray
-//        imagemCardapio = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
         imagemCardapio = ShareBitmap.bitmap
 
         loadEvents()

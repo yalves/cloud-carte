@@ -28,7 +28,7 @@ object DependencyInjector {
     val authService: AuthService by lazy { AuthFirebaseService(usuarioService) }
     val mapAlbumFirebaseService: MapAlbumFirebaseService by lazy { MapAlbumFirebaseService() }
     val albumService: AlbumService by lazy { AlbumFirebaseService(authService, mapAlbumFirebaseService) }
-    val estabelecimentoService: EstabelecimentoService by lazy { EstabelecimentoFirebaseService(albumService) }
+    val estabelecimentoService: EstabelecimentoService by lazy { EstabelecimentoFirebaseService(albumService, mapAlbumFirebaseService) }
 
     fun getHomePresenter(view: HomeContract.View) {
         HomePresenter(view, authService, albumService)

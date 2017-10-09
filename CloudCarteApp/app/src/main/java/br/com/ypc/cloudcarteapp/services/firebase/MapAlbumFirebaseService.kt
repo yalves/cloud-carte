@@ -1,6 +1,7 @@
 package br.com.ypc.cloudcarteapp.services.firebase
 
 import br.com.ypc.cloudcarteapp.metadata.SituacaoEnum
+import br.com.ypc.cloudcarteapp.models.domain.Estabelecimento
 import br.com.ypc.cloudcarteapp.models.domain.Usuario
 import br.com.ypc.cloudcarteapp.models.valueobjects.*
 import com.google.firebase.database.DataSnapshot
@@ -87,5 +88,18 @@ class MapAlbumFirebaseService {
                 conquistas = conquistas,
                 endereco = endereco,
                 telefone = telefone)
+    }
+
+    fun mapEstabelecimento(dataSnapshot: DataSnapshot): Estabelecimento {
+
+        val id = dataSnapshot.child("id").getValue(String::class.java) ?: ""
+        val nome = dataSnapshot.child("nome").getValue(String::class.java) ?: ""
+        val descricao = dataSnapshot.child("descricao").getValue(String::class.java) ?: ""
+        val comentarios = dataSnapshot.child("comentarios").children.map{ mapComentarios(it) } as MutableList
+
+        return Estabelecimento(id = id,
+                nome = nome,
+                descricao = descricao,
+                comentarios = comentarios)
     }
 }

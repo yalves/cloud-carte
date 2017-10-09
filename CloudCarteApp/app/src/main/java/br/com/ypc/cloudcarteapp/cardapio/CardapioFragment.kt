@@ -16,17 +16,15 @@ import br.com.ypc.cloudcarteapp.cardapio.adapter.EstabelecimentoClickListener
 import br.com.ypc.cloudcarteapp.cardapio.adapter.RestauranteRecyclerViewAdapter
 import br.com.ypc.cloudcarteapp.estabelecimento.EstabelecimentoActivity
 import br.com.ypc.cloudcarteapp.extensions.inflate
+import br.com.ypc.cloudcarteapp.home.HomeActivity
 import br.com.ypc.cloudcarteapp.home.HomeFragment
 import br.com.ypc.cloudcarteapp.models.domain.Estabelecimento
+import br.com.ypc.cloudcarteapp.utils.ShareBitmap
 import kotlinx.android.synthetic.main.fragment_cardapio.*
 import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.selector
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
-import br.com.ypc.cloudcarteapp.R.mipmap.ic_launcher
-import android.graphics.BitmapFactory
-import br.com.ypc.cloudcarteapp.utils.ShareBitmap
-import java.io.ByteArrayOutputStream
 
 
 /**
@@ -97,9 +95,6 @@ class CardapioFragment : Fragment(), CardapioContract.View {
 
     private fun showAddEstabelecimento() {
         cardapioImage?.let {
-//            val stream = ByteArrayOutputStream()
-//            it.compress(Bitmap.CompressFormat.PNG, 100, stream)
-//            val byteArray = stream.toByteArray()
             ShareBitmap.bitmap = it
             startActivity<EstabelecimentoActivity>()
         }
@@ -121,6 +116,8 @@ class CardapioFragment : Fragment(), CardapioContract.View {
 
     override fun showPhotoSaved() {
         toast(R.string.photo_saved_successful)
+        startActivity<HomeActivity>()
+        activity.finish()
     }
 
     override fun showSavePhotoError(error: String) {
