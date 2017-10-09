@@ -40,7 +40,7 @@ class HomeRecyclerViewAdapter(val context: Context, albuns: List<Album>, val lis
         var textVisibility: TextView = itemView.findViewById(R.id.text_visibility)
 
         fun bind(item: Album, listener: AlbumClickListener? = null) {
-            textView.text = item.estabelecimentoId
+            textView.text = "[Nome do estabelecimento]"//TODO Colocar o nome do estabelecimento
             textVisibility.text = "Data: ${item.nome}"
             Glide.with(context).load(item.itens.first().caminhoFoto).into(imageView)
             itemView.setOnClickListener {
