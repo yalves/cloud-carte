@@ -86,43 +86,6 @@ class AlbumFirebaseService(val authService: AuthService, val mapAlbumFirebaseSer
                 }
     }
 
-//Old method
-//    private fun addAlbumToUserAndEstabelecimento(userUid: String, estabelecimento: Estabelecimento, imageUploadInfo: Album, successFn: () -> Unit, errorFn: (Exception?) -> Unit) {
-//        val userChildRef = database.getReference("users/$userUid")
-//
-//        userChildRef.addListenerForSingleValueEvent(object : ValueEventListener {
-//
-//            override fun onDataChange(dataSnapshot: DataSnapshot?) {
-//                if (dataSnapshot == null) {
-//                    errorFn(Exception("User is null"))
-//                    return
-//                }
-//
-//                val usuario = mapAlbumFirebaseService.mapUsuario(dataSnapshot)
-////                usuario.albuns.add(imageUploadInfo.id)
-////                estabelecimento.abuns.add(imageUploadInfo.id)
-//
-//                val childUpdates = HashMap<String, Any>().apply {
-//                    put("estabelecimentos/${estabelecimento.id}", estabelecimento)
-//                    put("users/${userUid}", usuario)
-//                }
-//
-//                database.reference.updateChildren(childUpdates)
-//                        .addOnSuccessListener {
-//                            successFn()
-//                        }
-//                        .addOnFailureListener {
-//                            errorFn(it)
-//                        }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError?) {
-//                errorFn(error?.toException() ?: Exception("Operation cancelled"))
-//            }
-//        })
-//
-//    }
-
     private fun saveAlbumInDatabase(imageUploadInfoId: String, nameFile: String, estabelecimentoId: String, userId: String, taskSnapshot: UploadTask.TaskSnapshot, successFn: (Album) -> Unit, errorFn: (Exception?) -> Unit) {
         val albunsChildDatabase = database.reference.child("albuns")
 

@@ -1,19 +1,17 @@
 package br.com.ypc.cloudcarteapp.estabelecimento
 
-import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import br.com.ypc.cloudcarteapp.R
 import br.com.ypc.cloudcarteapp.extensions.inflate
 import br.com.ypc.cloudcarteapp.home.HomeActivity
 import br.com.ypc.cloudcarteapp.models.domain.Estabelecimento
+import br.com.ypc.cloudcarteapp.utils.DialogProgressUtils
 import br.com.ypc.cloudcarteapp.utils.ShareBitmap
 import kotlinx.android.synthetic.main.fragment_estabelecimento.*
-import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
 
@@ -22,7 +20,6 @@ import org.jetbrains.anko.support.v4.toast
  * Created by caleb on 08/10/2017.
  */
 class EstabelecimentoFragment : Fragment(), EstabelecimentoContract.View {
-    private var dialog: ProgressDialog? = null
 
     override lateinit var presenter: EstabelecimentoContract.Presenter
 
@@ -45,12 +42,11 @@ class EstabelecimentoFragment : Fragment(), EstabelecimentoContract.View {
     }
 
     override fun startLoading() {
-        dialog = dialog ?: indeterminateProgressDialog(message = "Please wait a bit…", title = "Loading")
-        dialog?.show()
+        DialogProgressUtils.show(this)
     }
 
     override fun finishLoading() {
-        dialog?.dismiss()
+        DialogProgressUtils.hide()
     }
 
     override fun showSaveEstabelecimentoError(error: String) {

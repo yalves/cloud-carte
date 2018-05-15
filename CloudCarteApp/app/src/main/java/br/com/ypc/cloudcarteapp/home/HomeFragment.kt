@@ -1,23 +1,18 @@
 package br.com.ypc.cloudcarteapp.home
 
-import android.app.Activity
-import android.app.ProgressDialog
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import br.com.ypc.cloudcarteapp.R
 import br.com.ypc.cloudcarteapp.cardapio.CardapioActivity
 import br.com.ypc.cloudcarteapp.extensions.inflate
 import br.com.ypc.cloudcarteapp.home.adapter.HomeRecyclerViewAdapter
 import br.com.ypc.cloudcarteapp.models.valueobjects.Album
+import br.com.ypc.cloudcarteapp.utils.DialogProgressUtils
 import kotlinx.android.synthetic.main.fragment_home.*
-import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.selector
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
@@ -29,7 +24,6 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override lateinit var presenter: HomeContract.Presenter
     private lateinit var adapter: HomeRecyclerViewAdapter
-    private var dialog: ProgressDialog? = null
     private var cardapioImage:Bitmap? = null
 
     override fun onResume() {
@@ -61,12 +55,11 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     override fun startLoading() {
-        dialog = dialog ?: indeterminateProgressDialog(message = "Please wait a bit…", title = "Loading")
-        dialog?.show()
+        DialogProgressUtils.show(this)
     }
 
     override fun finishLoading() {
-        dialog?.dismiss()
+        DialogProgressUtils.hide()
     }
 
     override fun showOptionPhotoDialog() {

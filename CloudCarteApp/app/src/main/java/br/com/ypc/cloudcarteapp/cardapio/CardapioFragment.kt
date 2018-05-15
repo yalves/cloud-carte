@@ -1,7 +1,6 @@
 package br.com.ypc.cloudcarteapp.cardapio
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -11,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import br.com.ypc.cloudcarteapp.R
 import br.com.ypc.cloudcarteapp.cardapio.adapter.EstabelecimentoClickListener
 import br.com.ypc.cloudcarteapp.cardapio.adapter.RestauranteRecyclerViewAdapter
 import br.com.ypc.cloudcarteapp.estabelecimento.EstabelecimentoActivity
@@ -19,9 +17,9 @@ import br.com.ypc.cloudcarteapp.extensions.inflate
 import br.com.ypc.cloudcarteapp.home.HomeActivity
 import br.com.ypc.cloudcarteapp.home.HomeFragment
 import br.com.ypc.cloudcarteapp.models.domain.Estabelecimento
+import br.com.ypc.cloudcarteapp.utils.DialogProgressUtils
 import br.com.ypc.cloudcarteapp.utils.ShareBitmap
 import kotlinx.android.synthetic.main.fragment_cardapio.*
-import org.jetbrains.anko.support.v4.indeterminateProgressDialog
 import org.jetbrains.anko.support.v4.selector
 import org.jetbrains.anko.support.v4.startActivity
 import org.jetbrains.anko.support.v4.toast
@@ -32,11 +30,12 @@ import org.jetbrains.anko.support.v4.toast
  */
 class CardapioFragment : Fragment(), CardapioContract.View {
 
+    private val ADD_ESTABELECIMENTOS = 0
+
     override lateinit var presenter: CardapioContract.Presenter
 
     private lateinit var adapter: RestauranteRecyclerViewAdapter
 
-    private var dialog: ProgressDialog? = null
     private var cardapioImage: Bitmap? = null
 
     override fun onResume() {
@@ -95,7 +94,7 @@ class CardapioFragment : Fragment(), CardapioContract.View {
         val options = listOf("Sim", "Não")
         selector("Restaurante não encontrado.\nDeseja cadastrá-lo?", options, { _, i ->
             when(i) {
-                0 -> showAddEstabelecimento()
+                ADD_ESTABELECIMENTOS -> showAddEstabelecimento()
             }
         })
     }
@@ -113,12 +112,11 @@ class CardapioFragment : Fragment(), CardapioContract.View {
     }
 
     override fun startLoading() {
-        dialog = dialog ?: indeterminateProgressDialog(message = "Please wait a bit…", title = "Loading")
-        dialog?.show()
+        DialogProgressUtils.show(this)
     }
 
     override fun finishLoading() {
-        dialog?.dismiss()
+        DialogProgressUtils.hide()
     }
 
     override fun showPhotoSaved() {

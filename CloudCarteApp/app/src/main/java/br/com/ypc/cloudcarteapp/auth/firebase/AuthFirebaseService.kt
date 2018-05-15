@@ -7,8 +7,6 @@ import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import android.os.Bundle
-import org.json.JSONObject
 import com.facebook.GraphRequest
 
 
@@ -19,14 +17,14 @@ import com.facebook.GraphRequest
 class AuthFirebaseService(val usuarioService: UsuarioService) : AuthService {
 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private val fbAuth: LoginManager by lazy {  LoginManager.getInstance() }
+    private val facebookAuth: LoginManager by lazy {  LoginManager.getInstance() }
 
 
     override fun getUserUid(): String? = auth.currentUser?.uid
 
 
     override fun logOut() {
-        fbAuth.logOut()
+        facebookAuth.logOut()
         auth.signOut()
     }
 
